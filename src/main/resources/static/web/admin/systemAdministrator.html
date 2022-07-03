@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lumino - Tables</title>
+
+    <link href="../../bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../bootstrap3/css/datepicker.css" rel="stylesheet">
+    <!--<link href="css/datepicker3.css" rel="stylesheet">-->
+    <link href="../../bootstrap3/css/bootstrap-table.css" rel="stylesheet">
+    <link href="../../css/styles.css" rel="stylesheet">
+    <!--<link href="css/bootstrap-table.css" rel="stylesheet">-->
+    <!--<link href="css/styles.css" rel="stylesheet">-->
+
+    <!--导入核心文件-->
+    <script src="../../bootstrap3/jquery-1.11.1.min.js"></script>
+    <script src="../../bootstrap3/bootstrap.js"></script>
+    <!--Icons-->
+
+    <script src="../../bootstrap3/lumino.glyphs.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="../../bootstrap3/html5shiv.min.js"></script>
+    <script src="../../bootstrap3/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<!--顶部显示-->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--用户名显示-->
+            <a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+            <ul class="user-menu">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <span id="admin_show"></span> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Profile</a></li>
+                        <li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+                        <li><a onclick="admin_layout()" href="#"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</nav>
+<!--/.sidebar侧边导航栏-->
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+    <form role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+        </div>
+    </form>
+    <ul class="nav menu">
+        <li><a href="#" onclick="show1()"><svg class="glyph stroked table" ><use xlink:href="#stroked-table"></use></svg> 商品管理</a></li>
+        <li><a href="#" onclick="show2()"><svg class="glyph stroked pencil" ><use xlink:href="#stroked-pencil"></use></svg> 用户管理</a></li>
+        <li><a href="#" onclick="show3()"><svg class="glyph stroked chevron-right"><use xlink:href="#stroked-chevron-right"></use></svg>营销经理管理</a></li>
+        <li><a href="#" onclick="show4()"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg>商品专员管理</a></li>
+    </ul>
+
+</div>
+
+<!--右边部分模块-->
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+            <li class="active">Icons</li>
+        </ol>
+    </div><!--/.row-->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">系统管理</h1>
+        </div>
+
+    </div><!--/.row-->
+    <div class="row">
+        <!--表单商品内容显示-->
+        <div class="col-lg-12" id="goodsGoods" style="display: none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">商品管理</div>
+                <!-- 商品添加弹出框 -->
+                <div>
+                    <!--bootstrap实现弹出模态框-->
+                    <button type="button" class="btn btn-primary btn-sm" data-target="#myModal1" data-toggle="modal" style="margin:10px 0 0 17px">添加</button>
+                    <div class="center-block" style="display: inline-block;float: right">
+                        <form role="search" style="margin:10px 0 0 17px">
+                            <div class="form-group" >
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </form>
+                    </div>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal1" aria-labelledby="myModallabel1" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel1">商品添加</h5>
+                                </div>
+                                <form id="pro_add_form" class="form-horizontal">
+                                    <!--										商品编号-->
+                                    <div class="form-group">
+                                        <label for="inputId1" class="col-sm-2 control-label">商品编号</label>
+                                        <div class="col-sm-7">
+                                            <input name="id" type="text" class="form-control" id="inputId1" placeholder="商品编号">
+                                        </div>
+                                    </div>
+                                    <!--										商品类别-->
+                                    <div class="form-group">
+                                        <label for="inputCary1" class="col-sm-2 control-label">商品类别</label>
+                                        <div class="col-sm-7">
+                                            <input name="categoryId" type="text" class="form-control" id="inputCary1" placeholder="商品类别">
+                                        </div>
+                                    </div>
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputSeries1" class="col-sm-2 control-label">商品系列</label>
+                                        <div class="col-sm-7">
+                                            <input name="itemType" type="text" class="form-control" id="inputSeries1" placeholder="商品系列">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputTitle1" class="col-sm-2 control-label">商品标题</label>
+                                        <div class="col-sm-7">
+                                            <input name="title" type="text" class="form-control" id="inputTitle1" placeholder="商品标题">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputSell1" class="col-sm-2 control-label">商品卖点</label>
+                                        <div class="col-sm-7">
+                                            <input name="sellPoint" type="text" class="form-control" id="inputSell1" placeholder="商品卖点">
+                                        </div>
+                                    </div>
+                                    <!--商品单价-->
+                                    <div class="form-group">
+                                        <label for="inputPrice1" class="col-sm-2 control-label">商品单价</label>
+                                        <div class="col-sm-7">
+                                            <input name="price" type="text" class="form-control" id="inputPrice1" placeholder="商品单价">
+                                        </div>
+                                    </div>
+                                    <!--库存-->
+                                    <div class="form-group">
+                                        <label for="inputRepertory1" class="col-sm-2 control-label">商品库存</label>
+                                        <div class="col-sm-7">
+                                            <input name="num" type="text" class="form-control" id="inputRepertory1" placeholder="商品库存">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="add_product()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 商品输出表单 -->
+                <div class="panel-body">
+                    <table  class="table table-bordered text-center">
+                        <thead>
+                            <tr>
+                                <!--						        <th data-field="state" data-checkbox="true" >分类</th>-->
+                                <th class="text-center">商品系列</th>
+                                <th  class="text-center " >商品标题</th>
+                                <th  class="text-center " >商品卖点</th>
+                                <th  class="text-center " >商品单价</th>
+                                <th  class="text-center " >库存</th>
+                                <th  class="text-center " >状态</th>
+                                <th  class="text-center " >操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-list" class="product-body">
+                            <tr>
+                                <td class="text-center">商品系题</td>
+                                <td>商品标题</td>
+                                <td>商品卖点</td>
+                                <td>商品单价</td>
+                                <td>库存</td>
+                                <td>
+                                    <a href="#" class="btn btn-primary  active btn-sm" role="button">上架</a>
+                                    <a href="#" class="btn btn-default  active btn-sm" role="button">下架</a>
+                                </td>
+                                <td>
+                                    <!-- 商品添加弹出框 -->
+                                    <div>
+                                        <!--bootstrap实现弹出模态框-->
+                                        <!--										<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->
+                                        <!--										<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                                        <button type="button" class="btn btn-primary btn-lg active btn-sm" data-target="#myModal2" data-toggle="modal">编辑</button>
+                                        <button type="button" class="btn btn-default btn-lg active btn-sm">删除</button>
+
+                                    </div>
+                                </td>
+                                <!--									<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal2" aria-labelledby="myModallabel2" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel2">商品修改</h5>
+                                </div>
+                                <form id="pro_list_form" class="form-horizontal">
+                                    <input type="hidden" name="id" id="p-id">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputSeries3" class="col-sm-2 control-label">商品系列</label>
+                                        <div class="col-sm-7">
+                                            <input name="itemType" type="email" class="form-control" id="inputSeries3" placeholder="商品系列">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputTitle3" class="col-sm-2 control-label">商品标题</label>
+                                        <div class="col-sm-7">
+                                            <input name="title" type="text" class="form-control" id="inputTitle3" placeholder="商品标题">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputSell3" class="col-sm-2 control-label">商品卖点</label>
+                                        <div class="col-sm-7">
+                                            <input name="sellPoint" type="text" class="form-control" id="inputSell3" placeholder="商品卖点">
+                                        </div>
+                                    </div>
+                                    <!--商品单价-->
+                                    <div class="form-group">
+                                        <label for="inputPrice3" class="col-sm-2 control-label">商品单价</label>
+                                        <div class="col-sm-7">
+                                            <input name="price" type="text" class="form-control" id="inputPrice3" placeholder="商品单价">
+                                        </div>
+                                    </div>
+                                    <!--库存-->
+                                    <div class="form-group">
+                                        <label for="inputRepertory3" class="col-sm-2 control-label">商品库存</label>
+                                        <div class="col-sm-7">
+                                            <input name="num" type="text" class="form-control" id="inputRepertory3" placeholder="商品库存">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="updatesubmit()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表单分页效果-->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" >
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--用户信息显示商品专员的信息-->
+        <div class="col-lg-12" id="users" style="display: none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">用户管理</div>
+                <!-- 用户添加弹出框 -->
+                <!-- 商品输出表单 -->
+                <div class="panel-body">
+                    <table  class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <!--						        <th data-field="state" data-checkbox="true" >分类</th>-->
+                            <th class="text-center">昵称</th>
+                            <th  class="text-center " >号码</th>
+                            <th  class="text-center " >电子邮箱</th>
+                            <th  class="text-center " >性别</th>
+                            <th  class="text-center " >状态</th>
+                            <th  class="text-center " >操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="user_list">
+                        <tr>
+                            <td class="text-center">许建平</td>
+                            <td>17764867378</td>
+                            <td>2294978565@qq.com</td>
+                            <td>男</td>
+                            <td>
+                                <a href="#" class="btn btn-danger  active btn-sm" role="button">禁用</a>
+                                <a href="#" class="btn btn-default  active btn-sm" role="button">启用</a>
+                            </td>
+                            <td>
+                                <!-- 商品添加弹出框 -->
+                                <div>
+                                    <!--bootstrap实现弹出模态框-->
+                                    <!--										<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->
+                                    <!--										<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                                    <button type="button" class="btn btn-primary active btn-sm" data-target="#myModal4" data-toggle="modal">编辑</button>
+                                    <button type="button" class="btn btn-default active btn-sm">删除</button>
+
+                                </div>
+                                <!--									<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal4" aria-labelledby="myModallabel4" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel4">用户修改</h5>
+                                </div>
+                                <form id="user_list_update" class="form-horizontal">
+                                    <input type="hidden" name="uid" id="uid">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputUsername2" class="col-sm-2 control-label">昵称</label>
+                                        <div class="col-sm-7">
+                                            <input name="username" type="text" class="form-control" id="inputUsername2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="password" id="password">
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputPhone2" class="col-sm-2 control-label">电话号码</label>
+                                        <div class="col-sm-7">
+                                            <input name="phone" type="text" class="form-control" id="inputPhone2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--商品单价-->
+                                    <div class="form-group">
+                                        <label for="inputEmail2" class="col-sm-2 control-label">邮箱</label>
+                                        <div class="col-sm-7">
+                                            <input name="email" type="text" class="form-control" id="inputEmail2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--库存-->
+                                    <div class="form-group">
+                                        <label for="inputSex2" class="col-sm-2 control-label">性别</label>
+                                        <div class="col-sm-7">
+                                            <input name="gender" type="text" class="form-control" id="inputSex2" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="userUpdateSubmit()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表单分页效果-->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" >
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--经理信息管理显示-->
+        <div class="col-lg-12" id="managers" style="display: none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">营销经理管理</div>
+                <!-- 用户添加弹出框 -->
+                <div>
+                    <!--bootstrap实现弹出模态框-->
+                    <button type="button" class="btn btn-primary btn-sm" data-target="#myModal5" data-toggle="modal" style="margin:10px 0 0 17px">添加</button>
+                    <div class="center-block" style="display: inline-block;float: right">
+                        <form id="" role="search" style="margin:10px 0 0 17px">
+                            <div class="form-group" >
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </form>
+                    </div>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal5" aria-labelledby="myModallabel5" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel5">营销经理添加</h5>
+                                </div>
+                                <form id="yingxiao_add_form" class="form-horizontal">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputUsername3" class="col-sm-2 control-label">营销经理昵称</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminName" type="text" class="form-control" id="inputUsername3" placeholder="请输入营销经理昵称">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label">营销经理密码</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminPassword" type="text" class="form-control" id="inputPassword3" placeholder="请输入营销经理密码">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputRole3" class="col-sm-2 control-label">级别</label>
+                                        <div class="col-sm-7">
+                                            <input name="role" type="text" value="2" class="form-control" id="inputRole3" placeholder="请输入级别">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="yingxiao_add()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 营销经理输出表单 -->
+                <div class="panel-body">
+                    <table  class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <!--						        <th data-field="state" data-checkbox="true" >分类</th>-->
+                            <th class="text-center">昵称</th>
+                            <th  class="text-center " >密码</th>
+                            <th  class="text-center " >级别</th>
+                            <th  class="text-center " >状态</th>
+                            <th  class="text-center " >操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="yingxiao_list">
+                        <tr>
+                            <td class="text-center">许建平</td>
+                            <td>123456</td>
+                            <td>17764867378</td>
+                            <td>
+                                <a href="#" class="btn btn-danger  active btn-sm" role="button">禁用</a>
+                                <a href="#" class="btn btn-default  active btn-sm" role="button">启用</a>
+                            </td>
+                            <td>
+                                <!-- 商品添加弹出框 -->
+                                <div>
+                                    <!--bootstrap实现弹出模态框-->
+                                    <!--										<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->
+                                    <!--										<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                                    <button type="button" class="btn btn-primary active btn-sm" data-target="#myModal6" data-toggle="modal">编辑</button>
+                                    <button type="button" class="btn btn-default active btn-sm">删除</button>
+
+                                </div>
+                                <!--									<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+                        </tr>
+                        </tbody>
+
+                    </table>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal6" aria-labelledby="myModallabel6" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel6">营销经理信息修改</h5>
+                                </div>
+                                <form id="yingxiao_update_form" class="form-horizontal">
+                                    <input id="yingxiao_id" name="adminId" type="hidden">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputUsername4" class="col-sm-2 control-label">昵称</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminName" type="text" class="form-control" id="inputUsername4" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputPassword4" class="col-sm-2 control-label">密码</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminPassword" type="text" class="form-control" id="inputPassword4" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputRole4" class="col-sm-2 control-label">级别</label>
+                                        <div class="col-sm-7">
+                                            <input name="role" type="text" class="form-control" id="inputRole4" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="yingxiao_update_submit()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表单分页效果-->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" >
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--商品专员管理信息-->
+        <div class="col-lg-12" id="subSystemers" style="display: none;">
+            <div class="panel panel-default">
+                <div class="panel-heading">商品专员管理</div>
+                <!-- 用户添加弹出框 -->
+                <div>
+                    <!--bootstrap实现弹出模态框-->
+                    <button type="button" class="btn btn-primary btn-sm" data-target="#myModal7" data-toggle="modal" style="margin:10px 0 0 17px">添加</button>
+                    <div class="center-block" style="display: inline-block;float: right">
+                        <form role="search" style="margin:10px 0 0 17px">
+                            <div class="form-group" >
+                                <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                        </form>
+                    </div>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal7" aria-labelledby="myModallabel7" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel7">商品专员添加</h5>
+                                </div>
+                                <form id="zhuanyuan_add_list" class="form-horizontal">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputUsername5" class="col-sm-2 control-label">商品专员昵称</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminName" type="text" class="form-control" id="inputUsername5" placeholder="请输入商品专员昵称">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputPassword5" class="col-sm-2 control-label">商品专员密码</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminPassword" type="text" class="form-control" id="inputPassword5" placeholder="请输入用户密码">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputRole5" class="col-sm-2 control-label">级别</label>
+                                        <div class="col-sm-7">
+                                            <input name="role" value="1" type="text" class="form-control" id="inputRole5" placeholder="请输入级别">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="zhuanyuan_add()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 商品专员输出表单 -->
+                <div class="panel-body">
+                    <table  class="table table-bordered text-center">
+                        <thead>
+                        <tr>
+                            <!--						        <th data-field="state" data-checkbox="true" >分类</th>-->
+                            <th class="text-center">昵称</th>
+                            <th  class="text-center " >密码</th>
+                            <th  class="text-center " >级别</th>
+                            <th  class="text-center " >状态</th>
+                            <th  class="text-center " >操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="zhuanyuan_list">
+                        <tr>
+                            <td class="text-center">许建平</td>
+                            <td>123456</td>
+                            <td>男</td>
+                            <td>
+                                <a href="#" class="btn btn-danger  active btn-sm" role="button">禁用</a>
+                                <a href="#" class="btn btn-default  active btn-sm" role="button">启用</a>
+                            </td>
+                            <td>
+                                <div>
+                                    <button type="button" class="btn btn-primary active btn-sm" data-target="#myModal8" data-toggle="modal">编辑</button>
+                                    <button type="button" class="btn btn-default active btn-sm">删除</button>
+                                </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--fade 淡入淡出-->
+                    <div class="modal fade"  id="myModal8" aria-labelledby="myModallabel8" aria-hidden="true" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h5 class="modal-title" id="myModallabel8">用户修改</h5>
+                                </div>
+                                <form id="zhuanyuan_update_form" class="form-horizontal">
+                                    <input id="zhuanyuan_id" name="adminId" type="hidden">
+                                    <!--商品系列-->
+                                    <div class="form-group">
+                                        <label for="inputUsername6" class="col-sm-2 control-label">昵称</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminName" type="text" class="form-control" id="inputUsername6" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--商品标题-->
+                                    <div class="form-group">
+                                        <label for="inputPassword6" class="col-sm-2 control-label">密码</label>
+                                        <div class="col-sm-7">
+                                            <input name="adminPassword" type="text" class="form-control" id="inputPassword6" placeholder="">
+                                        </div>
+                                    </div>
+                                    <!--商品卖点-->
+                                    <div class="form-group">
+                                        <label for="inputRole6" class="col-sm-2 control-label">级别</label>
+                                        <div class="col-sm-7">
+                                            <input name="role" type="text" class="form-control" id="inputRole6" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+                                        <button class="btn btn-success" type="button" onclick="zhuanyuan_update_submit()">submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表单分页效果-->
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" >
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div><!--/.row-->
+</div><!--/.main-->
+
+<!--<script src="js/jquery-1.11.1.min.js"></script>-->
+<!--<script src="js/bootstrap.min.js"></script>-->
+<!--<script src="js/chart.min.js"></script>-->
+<!--<script src="js/chart-data.js"></script>-->
+<!--<script src="js/easypiechart.js"></script>-->
+<!--<script src="js/easypiechart-data.js"></script>-->
+<!--<script src="js/bootstrap-datepicker.js"></script>-->
+<!--<script src="js/bootstrap-table.js"></script>-->
+<script>
+    !function ($) {
+        $(document).on("click","ul.nav li.parent > a > span.icon", function(){
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<!--显示隐藏表单-->
+<script>
+
+    function show1(){
+        document.getElementById("goodsGoods").style.display="block";
+        document.getElementById("users").style.display="none";
+        document.getElementById("managers").style.display="none";
+        document.getElementById("subSystemers").style.display="none";
+    };
+    function show2()
+    {
+        document.getElementById("goodsGoods").style.display="none";
+        document.getElementById("users").style.display="block";
+        document.getElementById("managers").style.display="none";
+        document.getElementById("subSystemers").style.display="none";
+    };
+    function show3(){
+        document.getElementById("goodsGoods").style.display="none";
+        document.getElementById("users").style.display="none";
+        document.getElementById("managers").style.display="block";
+        document.getElementById("subSystemers").style.display="none";
+    };
+    function show4()
+    {
+        document.getElementById("goodsGoods").style.display="none";
+        document.getElementById("users").style.display="none";
+        document.getElementById("managers").style.display="none";
+        document.getElementById("subSystemers").style.display="block";
+    };
+</script>
+<script src="../../js/admin_pro_sys.js"></script>
+<script src="../../js/admin_user_sys.js"></script>
+<script>
+    $(document).ready(function() {
+        show1();
+        showYingXiaoList();
+        showZhuanYuanList();
+        $("#admin_show").text(sessionStorage.getItem("adminName"));
+        let name=sessionStorage.getItem("adminName");
+        console.log(name);
+    });
+
+    function showYingXiaoList(){
+        $("#yingxiao_list").empty();
+        $.ajax({
+            url: "/admin/"+2+"/getAdmin",
+            type: "GET",
+            dataType: "JSON",
+            success: function(json) {
+                console.log(json);
+                let list = json.data;
+                for (let i = 0; i < list.length; i++) {
+                    let tr = ' <tr>\n' +
+                        '<td class="text-center">#{adminName}</td>\n' +
+                        '<td>#{adminPwd}</td>\n' +
+                        '<td>#{adminRole}</td>\n' +
+                        '<td>\n' +
+                        '<a href="#" class="btn btn-danger  active btn-sm" role="button">禁用</a>\n' +
+                        '<a href="#" class="btn btn-default  active btn-sm" role="button">启用</a>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<!-- 商品添加弹出框 -->\n' +
+                        '<div>\n' +
+                        '<!--bootstrap实现弹出模态框-->\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+                        '<button onclick="yingxiao_edit(#{adminId})" type="button" class="btn btn-primary active btn-sm" data-target="#myModal6" data-toggle="modal">编辑</button>\n' +
+                        '<button onclick="yingxiao_delete(#{adminId})" type="button" class="btn btn-default btn-lg active btn-sm">删除</button>\n' +
+                        '\n' +
+                        '</div>\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+                        '</tr>';
+                    tr = tr.replace(/#{adminId}/g, list[i].adminId);
+                    tr = tr.replace(/#{adminName}/g, list[i].adminName);
+                    tr = tr.replace(/#{adminPwd}/g, list[i].adminPassword);
+                    tr = tr.replace(/#{adminRole}/g, list[i].role);
+
+                    $("#yingxiao_list").append(tr);
+                }
+            }
+        });
+    }
+
+    function showZhuanYuanList(){
+        $("#zhuanyuan_list").empty();
+        $.ajax({
+            url: "/admin/"+1+"/getAdmin",
+            type: "GET",
+            dataType: "JSON",
+            success: function(json) {
+                console.log(json);
+                let list = json.data;
+                for (let i = 0; i < list.length; i++) {
+                    let tr = ' <tr>\n' +
+                        '<td class="text-center">#{adminName}</td>\n' +
+                        '<td>#{adminPwd}</td>\n' +
+                        '<td>#{adminRole}</td>\n' +
+                        '<td>\n' +
+                        '<a href="#" class="btn btn-danger  active btn-sm" role="button">禁用</a>\n' +
+                        '<a href="#" class="btn btn-default  active btn-sm" role="button">启用</a>\n' +
+                        '</td>\n' +
+                        '<td>\n' +
+                        '<!-- 商品添加弹出框 -->\n' +
+                        '<div>\n' +
+                        '<!--bootstrap实现弹出模态框-->\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+                        '<button onclick="zhuanyuan_edit(#{adminId})" type="button" class="btn btn-primary active btn-sm" data-target="#myModal8" data-toggle="modal">编辑</button>\n' +
+                        '<button onclick="zhuanyuan_delete(#{adminId})" type="button" class="btn btn-default btn-lg active btn-sm">删除</button>\n' +
+                        '\n' +
+                        '</div>\n' +
+                        '<!--\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+                        '</tr>';
+                    tr = tr.replace(/#{adminId}/g, list[i].adminId);
+                    tr = tr.replace(/#{adminName}/g, list[i].adminName);
+                    tr = tr.replace(/#{adminPwd}/g, list[i].adminPassword);
+                    tr = tr.replace(/#{adminRole}/g, list[i].role);
+
+                    $("#zhuanyuan_list").append(tr);
+                }
+            }
+        });
+    }
+
+    function yingxiao_edit(adminid){
+        $.ajax({
+            url: "/admin/"+adminid+"/update",
+            type: "GET",
+            dataType: "JSON",
+            success: function (json){
+                if (json.state==200){
+                    $("#yingxiao_id").val(json.data.adminId);
+                    $("#inputUsername4").val(json.data.adminName);
+                    $("#inputPassword4").val(json.data.adminPassword);
+                    $("#inputRole4").val(json.data.role);
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function zhuanyuan_edit(adminid){
+        $.ajax({
+            url: "/admin/"+adminid+"/update",
+            type: "GET",
+            dataType: "JSON",
+            success: function (json){
+                if (json.state==200){
+                    $("#zhuanyuan_id").val(json.data.adminId);
+                    $("#inputUsername6").val(json.data.adminName);
+                    $("#inputPassword6").val(json.data.adminPassword);
+                    $("#inputRole6").val(json.data.role);
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function yingxiao_update_submit(){
+        $.ajax({
+            url: "/admin/updateAdmin",
+            type: "POST",
+            dataType: "JSON",
+            data: $("#yingxiao_update_form").serialize(),
+            success: function (json){
+                if (json.state==200){
+                    alert("修改营销经理信息成功");
+                    location.href="systemAdministrator.html"
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function zhuanyuan_update_submit(){
+        $.ajax({
+            url: "/admin/updateAdmin",
+            type: "POST",
+            dataType: "JSON",
+            data: $("#zhuanyuan_update_form").serialize(),
+            success: function (json){
+                if (json.state==200){
+                    alert("修改商品专员信息成功");
+                    location.href="systemAdministrator.html"
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function yingxiao_add(){
+        $.ajax({
+            url: "/admin/addAdmin",
+            type: "POST",
+            dataType: "JSON",
+            data: $("#yingxiao_add_form").serialize(),
+            success: function (json){
+                if (json.state==200){
+                    alert("添加营销经理成功");
+                    location.href="systemAdministrator.html"
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function zhuanyuan_add(){
+        $.ajax({
+            url: "/admin/addAdmin",
+            type: "POST",
+            dataType: "JSON",
+            data: $("#zhuanyuan_add_list").serialize(),
+            success: function (json){
+                if (json.state==200){
+                    alert("添加商品专员成功");
+                    location.href="systemAdministrator.html"
+                }else {
+                    alert(json.message);
+                }
+            }
+        });
+    }
+
+    function yingxiao_delete(adminId){
+        if (confirm("确定删除吗？")){
+            $.ajax({
+                url: "/admin/"+adminId+"/deleteAdmin",
+                type: "GET",
+                dataType: "JSON",
+                success: function (json){
+                    if (json.state==200){
+                        alert("删除营销经理成功");
+                        location.href="systemAdministrator.html"
+                    }else {
+                        alert(json.message);
+                    }
+                }
+            });
+        }else{
+            return false;
+        }
+
+    }
+
+    function zhuanyuan_delete(adminId){
+        if (confirm("确定删除吗？")){
+            $.ajax({
+                url: "/admin/"+adminId+"/deleteAdmin",
+                type: "GET",
+                dataType: "JSON",
+                success: function (json){
+                    if (json.state==200){
+                        alert("删除商品专员成功");
+                        location.href="systemAdministrator.html";
+                        // show4();
+                        document.getElementById("goodsGoods").style.display="none";
+                        document.getElementById("users").style.display="none";
+                        document.getElementById("managers").style.display="none";
+                        document.getElementById("subSystemers").style.display="block";
+                    }else {
+                        alert(json.message);
+                    }
+                }
+            });
+        }else{
+            return false;
+        }
+
+    }
+
+    function admin_layout(){
+        // if (!confirm("确定退出吗?")){
+        // 	location.href="";
+        // }else{
+        // 	return false;
+        // }
+        $.ajax({
+            url: "/admin/layout",
+            type: "GET",
+            dataType: "JSON",
+            success: function (json){
+                if (json.state==200){
+                    if (confirm("确定要退出吗？")){
+                        sessionStorage.clear();
+                        location.href="login.html";
+                    }else {
+                        return false;
+                    }
+                }
+            }
+        });
+        // location.href="systemAdministrator.html";
+    }
+</script>
+</body>
+
+</html>

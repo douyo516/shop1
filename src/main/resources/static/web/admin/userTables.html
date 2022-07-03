@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumino - Tables</title>
+
+<!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
+	<link href="../../bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../bootstrap3/css/datepicker.css" rel="stylesheet">
+<!--<link href="css/datepicker3.css" rel="stylesheet">-->
+	<link href="../../bootstrap3/css/bootstrap-table.css" rel="stylesheet">
+	<link href="../../css/styles.css" rel="stylesheet">
+<!--<link href="css/bootstrap-table.css" rel="stylesheet">-->
+<!--<link href="css/styles.css" rel="stylesheet">-->
+
+<!--导入核心文件-->
+	<script src="../../bootstrap3/jquery-1.11.1.min.js"></script>
+	<script src="../../bootstrap3/bootstrap.js"></script>
+<!--Icons-->
+
+	<script src="../../bootstrap3/lumino.glyphs.js"></script>
+
+<!--[if lt IE 9]>
+	<script src="../../bootstrap3/html5shiv.min.js"></script>
+	<script src="../../bootstrap3/respond.min.js"></script>
+
+<![endif]-->
+</head>
+
+<body>
+<!--	<label th:teaxt="${adminId}}"></label>-->
+	<!--顶部显示-->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<!--用户名显示-->
+				<a class="navbar-brand" href="#"><span>Lumino</span>Admin</a>
+				<ul class="user-menu">
+					<li class="dropdown pull-right">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg><span id="admin_show"></span><span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="login.html"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Login</a></li>
+							<li><a href="#"><svg class="glyph stroked gear"><use xlink:href="#stroked-gear"></use></svg> Settings</a></li>
+							<li><a onclick="admin_layout()" href=""><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+
+		</div><!-- /.container-fluid -->
+	</nav>
+	<!--/.sidebar侧边导航栏-->
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+		<form role="search">
+			<div class="form-group">
+				<input type="text" class="form-control" placeholder="Search">
+			</div>
+		</form>
+		<ul class="nav menu">
+			<li class="active"><a href="userTables.html"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> 商品管理</a></li>
+		</ul>
+
+	</div>
+
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="#"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg></a></li>
+				<li class="active">Icons</li>
+			</ol>
+		</div><!--/.row-->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">商品管理</h1>
+			</div>
+
+		</div><!--/.row-->
+
+		<div class="row">
+            <!--表单商品内容显示-->
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">商品管理</div>
+					<!-- 商品添加弹出框 -->
+					<div>
+						<!--bootstrap实现弹出模态框-->
+						<button type="button" class="btn btn-primary btn-sm" data-target="#myModal1" data-toggle="modal" style="margin:10px 0 0 17px" onclick="">添加</button>
+						<div class="center-block" style="display: inline-block;float: right">
+							<form role="search" style="margin:10px 0 0 17px">
+								<div class="form-group" >
+									<input type="text" class="form-control" placeholder="Search">
+								</div>
+							</form>
+						</div>
+						<!--fade 淡入淡出-->
+						<div class="modal fade"  id="myModal1" aria-labelledby="myModallabel1" aria-hidden="true" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+										<h5 class="modal-title" id="myModallabel1">商品添加</h5>
+									</div>
+									<form id="pro_add_form" class="form-horizontal">
+<!--										商品编号-->
+										<div class="form-group">
+											<label for="inputId1" class="col-sm-2 control-label">商品编号</label>
+											<div class="col-sm-7">
+												<input name="id" type="text" class="form-control" id="inputId1" placeholder="商品编号">
+											</div>
+										</div>
+<!--										商品类别-->
+										<div class="form-group">
+											<label for="inputCary1" class="col-sm-2 control-label">商品类别</label>
+											<div class="col-sm-7">
+												<input name="categoryId" type="text" class="form-control" id="inputCary1" placeholder="商品类别">
+											</div>
+										</div>
+										<!--商品系列-->
+										<div class="form-group">
+											<label for="inputSeries1" class="col-sm-2 control-label">商品系列</label>
+											<div class="col-sm-7">
+												<input name="itemType" type="text" class="form-control" id="inputSeries1" placeholder="商品系列">
+											</div>
+										</div>
+										<!--商品标题-->
+										<div class="form-group">
+											<label for="inputTitle1" class="col-sm-2 control-label">商品标题</label>
+											<div class="col-sm-7">
+												<input name="title" type="text" class="form-control" id="inputTitle1" placeholder="商品标题">
+											</div>
+										</div>
+										<!--商品卖点-->
+										<div class="form-group">
+											<label for="inputSell1" class="col-sm-2 control-label">商品卖点</label>
+											<div class="col-sm-7">
+												<input name="sellPoint" type="text" class="form-control" id="inputSell1" placeholder="商品卖点">
+											</div>
+										</div>
+										<!--商品单价-->
+										<div class="form-group">
+											<label for="inputPrice1" class="col-sm-2 control-label">商品单价</label>
+											<div class="col-sm-7">
+												<input name="price" type="text" class="form-control" id="inputPrice1" placeholder="商品单价">
+											</div>
+										</div>
+										<!--库存-->
+										<div class="form-group">
+											<label for="inputRepertory1" class="col-sm-2 control-label">商品库存</label>
+											<div class="col-sm-7">
+												<input name="num" type="text" class="form-control" id="inputRepertory1" placeholder="商品库存">
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+											<button class="btn btn-success" type="button" onclick="add_product()">submit</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- 商品输出表单 -->
+					<div class="panel-body">
+						<table  class="table table-bordered text-center">
+						    <thead>
+						    <tr>
+<!--						        <th data-field="state" data-checkbox="true" >分类</th>-->
+						        <th class="text-center">商品系列</th>
+								<th  class="text-center " >商品标题</th>
+								<th  class="text-center " >商品卖点</th>
+								<th  class="text-center " >商品单价</th>
+								<th  class="text-center " >库存</th>
+								<th  class="text-center " >状态</th>
+								<th  class="text-center " >操作</th>
+							</tr>
+							</thead>
+							<tbody id="product-list" class="product-body">
+								<tr>
+									<td class="text-center">商品系题</td>
+									<td>商品标题</td>
+									<td>商品卖点</td>
+									<td>商品单价</td>
+									<td>库存</td>
+									<td>
+										<a href="#" class="btn btn-primary  active btn-sm" role="button">上架</a>
+										<a href="#" class="btn btn-default  active btn-sm" role="button">下架</a>
+									</td>
+									<td>
+										<!-- 商品添加弹出框 -->
+										<div>
+											<!--bootstrap实现弹出模态框-->
+											<!--										<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->
+											<!--										<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+											<button type="button" class="btn btn-primary btn-lg active btn-sm" data-target="#myModal2" data-toggle="modal">编辑</button>
+											<button type="button" class="btn btn-default btn-lg active btn-sm">删除</button>
+
+										</div>
+									</td>
+									<!--									<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->
+								</tr>
+							</tbody>
+						</table>
+						<!--表单分页效果-->
+						<nav aria-label="Page navigation">
+							<ul class="pagination" >
+								<li>
+									<a href="#" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li>
+									<a href="#" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div><!--/.row-->
+	</div><!--/.main-->
+	<!--fade 淡入淡出-->
+	<div class="modal fade"  id="myModal2" aria-labelledby="myModallabel2" aria-hidden="true" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h5 class="modal-title" id="myModallabel2">商品修改</h5>
+				</div>
+				<form id="pro_list_form" class="form-horizontal">
+					<input type="hidden" name="id" id="p-id">
+					<!--商品系列-->
+					<div class="form-group">
+						<label for="inputSeries3" class="col-sm-2 control-label">商品系列</label>
+						<div class="col-sm-7">
+							<input name="itemType" type="email" class="form-control" id="inputSeries3" placeholder="商品系列">
+						</div>
+					</div>
+					<!--商品标题-->
+					<div class="form-group">
+						<label for="inputTitle3" class="col-sm-2 control-label">商品标题</label>
+						<div class="col-sm-7">
+							<input name="title" type="text" class="form-control" id="inputTitle3" placeholder="商品标题">
+						</div>
+					</div>
+					<!--商品卖点-->
+					<div class="form-group">
+						<label for="inputSell3" class="col-sm-2 control-label">商品卖点</label>
+						<div class="col-sm-7">
+							<input name="sellPoint" type="text" class="form-control" id="inputSell3" placeholder="商品卖点">
+						</div>
+					</div>
+					<!--商品单价-->
+					<div class="form-group">
+						<label for="inputPrice3" class="col-sm-2 control-label">商品单价</label>
+						<div class="col-sm-7">
+							<input name="price" type="text" class="form-control" id="inputPrice3" placeholder="商品单价">
+						</div>
+					</div>
+					<!--库存-->
+					<div class="form-group">
+						<label for="inputRepertory3" class="col-sm-2 control-label">商品库存</label>
+						<div class="col-sm-7">
+							<input name="num" type="text" class="form-control" id="inputRepertory3" placeholder="商品库存">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-default" type="button" data-dismiss="modal">close</button>
+						<button class="btn btn-success" type="button" onclick="updatesubmit()">submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+<!--	<script src="js/jquery-1.11.1.min.js"></script>-->
+<!--	<script src="js/bootstrap.min.js"></script>-->
+<!--	<script src="js/chart.min.js"></script>-->
+<!--	<script src="js/chart-data.js"></script>-->
+<!--	<script src="js/easypiechart.js"></script>-->
+<!--	<script src="js/easypiechart-data.js"></script>-->
+<!--	<script src="js/bootstrap-datepicker.js"></script>-->
+<!--	<script src="js/bootstrap-table.js"></script>-->
+	<script>
+		!function ($) {
+			$(document).on("click","ul.nav li.parent > a > span.icon", function(){		  
+				$(this).find('em:first').toggleClass("glyphicon-minus");	  
+			}); 
+			$(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>
+	<script>
+		$(document).ready(function() {
+			showProductList();
+			if (sessionStorage.getItem("adminName")==null){
+				$("#admin_show").text("请登录");
+			}else{
+				$("#admin_show").text(sessionStorage.getItem("adminName"));
+			}
+
+			let name=sessionStorage.getItem("adminName");
+			console.log(name);
+			// console.log($("#admin_show").text(sessionStorage.getItem("adminName")));
+		});
+
+		function showProductList() {
+			$("#product-list").empty();
+			$.ajax({
+				url: "/products",
+				type: "GET",
+				dataType: "JSON",
+				success: function(json) {
+					console.log(json);
+					let list = json.data;
+					for (let i = 0; i < list.length; i++) {
+						let tr = '<tr>\n' +
+								'\t\t\t\t\t\t\t\t\t<td class="text-center">#{p-type}</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>#{p-title}</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>#{p-sell}</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>#{p-price}</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>#{p-num}</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>\n' +
+								'\t\t\t\t\t\t\t\t\t\t<a onclick="p_put()" href="#" class="btn btn-primary  active btn-sm" role="button">上架</a>\n' +
+								'\t\t\t\t\t\t\t\t\t\t<a onclick="p_down()" href="#" class="btn btn-default  active btn-sm" role="button">下架</a>\n' +
+								'\t\t\t\t\t\t\t\t\t</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<td>\n' +
+								'\t\t\t\t\t\t\t\t\t\t<!-- 商品添加弹出框 -->\n' +
+								'\t\t\t\t\t\t\t\t\t\t<div>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<!--bootstrap实现弹出模态框-->\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-primary btn-lg active btn-sm" role="button">编辑</a>-->\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<!--\t\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<button onclick="p_edit(#{pid})" type="button" class="btn btn-primary btn-lg active btn-sm" data-target="#myModal2" data-toggle="modal">编辑</button>\n' +
+								'\t\t\t\t\t\t\t\t\t\t\t<button onclick="p_delete(#{pid})" type="button" class="btn btn-default btn-lg active btn-sm">删除</button>\n' +
+								'\n' +
+								'\t\t\t\t\t\t\t\t\t\t</div>\n' +
+								'\t\t\t\t\t\t\t\t\t</td>\n' +
+								'\t\t\t\t\t\t\t\t\t<!--\t\t\t\t\t\t\t\t\t<a href="#" class="btn btn-default btn-lg active btn-sm" role="button">删除</a>-->\n' +
+								'\t\t\t\t\t\t\t\t</tr>';
+						tr = tr.replace(/#{pid}/g, list[i].id);
+						tr = tr.replace(/#{p-type}/g, list[i].itemType);
+						tr = tr.replace(/#{p-title}/g, list[i].title);
+						tr = tr.replace(/#{p-sell}/g, list[i].sellPoint);
+						tr = tr.replace(/#{p-price}/g, list[i].price);
+						tr = tr.replace(/#{p-num}/g, list[i].num);
+
+						$("#product-list").append(tr);
+					}
+				}
+			});
+		}
+
+		function p_edit(pid){
+			$.ajax({
+				url: "/admin/product/"+pid+"/update",
+				type: "GET",
+				dataType: "JSON",
+				success: function (json){
+					if (json.state==200){
+						$("#p-id").val(json.data.id);
+						$("#inputSeries3").val(json.data.itemType);
+						$("#inputTitle3").val(json.data.title);
+						$("#inputSell3").val(json.data.sellPoint);
+						$("#inputPrice3").val(json.data.price);
+						$("#inputRepertory3").val(json.data.num);
+					}else {
+						alert(json.message);
+					}
+				}
+			});
+		}
+
+		function updatesubmit(){
+			$.ajax({
+				url: "/admin/update_product",
+				type: "POST",
+				dataType: "JSON",
+				data: $("#pro_list_form").serialize(),
+				success: function (json){
+					if (json.state==200){
+						alert("修改商品信息成功");
+						location.href="userTables.html"
+					}else {
+						alert(json.message);
+					}
+				}
+			});
+		}
+
+		function add_product(){
+			$.ajax({
+				url: "/admin/add_product",
+				type: "POST",
+				dataType: "JSON",
+				data: $("#pro_add_form").serialize(),
+				success: function (json){
+					if (json.state==200){
+						alert("添加商品成功");
+						location.href="userTables.html"
+					}else {
+						alert(json.message);
+					}
+				}
+			});
+		}
+
+		function p_delete(pid){
+			if (confirm("确定删除吗?")){
+				$.ajax({
+					url: "/admin/"+pid+"/delete_product",
+					type: "GET",
+					dataType: "JSON",
+					success: function (json){
+						if (json.state==200){
+							alert("删除商品成功");
+							location.href="userTables.html"
+						}else {
+							alert(json.message);
+						}
+					}
+				});
+			}else {
+				return false;
+			}
+
+		}
+
+		function admin_layout(){
+			// if (!confirm("确定退出吗?")){
+			// 	location.href="";
+			// }else{
+			// 	return false;
+			// }
+			$.ajax({
+				url: "/admin/layout",
+				type: "GET",
+				dataType: "JSON",
+				success: function (json){
+					if (json.state==200){
+						if (confirm("确定要退出吗？")){
+							sessionStorage.clear();
+							location.href="login.html";
+						}else {
+							return false;
+						}
+					}
+				}
+			});
+			// location.href="systemAdministrator.html";
+		}
+	</script>
+</body>
+
+</html>
